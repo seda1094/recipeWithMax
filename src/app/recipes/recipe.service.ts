@@ -32,7 +32,6 @@ export class RecipeService {
             new Ingredient('Codo', 456),
             new Ingredient('Sini', 123),
         ]),
-
     ];
     constructor(private sl: ShoppingListService) { }
 
@@ -40,12 +39,11 @@ export class RecipeService {
     setRecipes(recipes:Recipe[]){
         this.recipes = recipes;
         this.recipeChanged.next(this.recipes.slice())
-        console.log("recipe"+recipes);
-        
     }
-    getRecipe() {
-        return this.recipes; 
-    }
+  getRecipes() {    
+    return this.recipes.slice();
+  }
+
 
     addIngredientsToShoppingList(ingredients: Ingredient[]) {
         this.sl.addIngedients(ingredients)

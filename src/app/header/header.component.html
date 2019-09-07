@@ -16,16 +16,26 @@
 
         </ul>
         <div class="my-2 my-lg-0">
-            <li class="nav-item dropdown" style="list-style-type: none">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    Manage
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" style="cursor:pointer; " (click)='onSaveData()'>Save Data</a>
-                    <a class="dropdown-item" style="cursor:pointer; " (click)='onFetchData()'>Fetch Data</a>
-                </div>
-            </li>
+                <!-- <ng-template [ngIf]="!authService.isAuthenticated()"> -->
+                    <div style="display: inline-block" *ngIf="!authService.isAuthenticated()">
+                        <li><a routerLink="/signup">Register</a></li>
+                        <li><a routerLink="/signin">LogIn</a></li>
+                    </div>
+                <!-- </ng-template> -->
+
+            <ng-template [ngIf]="authService.isAuthenticated()">
+                <li class="nav-item dropdown" style="list-style-type: none">
+                    <a style="cursor: pointer" (click)="onLogOut()" *ngIf="authService.isAuthenticated()">LogOut</a>
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Manage
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" style="cursor:pointer; " (click)='onSaveData()'>Save Data</a>
+                        <a class="dropdown-item" style="cursor:pointer; " (click)='onFetchData()'>Fetch Data</a>
+                    </div>
+                </li>
+            </ng-template>
         </div>
     </div>
 </nav>

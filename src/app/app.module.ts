@@ -1,8 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { RecipesComponent } from './recipes/recipes.component';
@@ -19,18 +17,26 @@ import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component
 import { RecipeService } from './recipes/recipe.service';
 import { HttpModule } from '@angular/http';
 import { DataStorageService } from './shared/data.stroge.service';
+import { SignupComponent } from './auth/signup/signup.component';
+import { SigninComponent } from './auth/signin/signin.component';
+import { AuthService } from './auth/auth.service';
+import { AuthGuard } from './auth/auth-guard.service';
+
 const appRoutes: Routes = [
   {path:'', redirectTo: '/recipe', pathMatch: 'full'},
   {path:'recipe', component: RecipesComponent, children:
 [
   {path:'', component: RecipeStartComponent},
-  {path:'new', component: RecipeEditComponent},
+  {path:'new', component: RecipeEditComponent, canActivate:[AuthGuard]},
   {path:':id', component: RecipesDetailComponent},
-  {path:':id/edit', component: RecipeEditComponent}
+  {path:':id/edit', component: RecipeEditComponent, canActivate:[AuthGuard]}
 
 
 ]},
-  {path:'shopping-list',component: ShoppingListComponent}
+  {path:'shopping-list',component: ShoppingListComponent},
+  {path:'signup',component: SignupComponent},
+  {path:'signin',component: SigninComponent}
+
 
 ]
 
@@ -45,7 +51,9 @@ const appRoutes: Routes = [
     ShoppingListComponent,
     ShoppingEditComponent,
     RecipeStartComponent,
-    RecipeEditComponent
+    RecipeEditComponent,
+    SignupComponent,
+    SigninComponent
 
   ],
   imports: [
@@ -55,7 +63,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [RecipeService,ShoppingListService, DataStorageService],
+  providers: [RecipeService,ShoppingListService, DataStorageService,AuthService,AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
